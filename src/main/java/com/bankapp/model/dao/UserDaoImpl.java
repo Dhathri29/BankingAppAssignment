@@ -21,21 +21,25 @@ public class UserDaoImpl implements UserDao{
 		this.factory = factory;
 	}
 	
+	//getting session from session factory
 	private Session getSession() {
 		return factory.getCurrentSession();
 	}
 
+	//Getting all users using getResultList() which executes the select query and return the query result.
 	@Override
 	public List<User> getAllUsers() {
 		return getSession().createQuery("from User").getResultList();
 	}
 
+	//Adding a new user.
 	@Override
 	public User addUser(User user) {
 		getSession().save(user);
 		return user;
 	}
 
+	//deleting the user
 	@Override
 	public User deleteUser(User user) {
 		User userToBeDeleted = getUser(user.getUsername(), user.getPassword());
@@ -50,6 +54,7 @@ public class UserDaoImpl implements UserDao{
 		return user;
 	}
 
+	//Login validation by checking username and password.
 	@Override
 	public User getUser(String username, String password) {
 		Query query = getSession().createQuery("from User where username=:username1 and password=:password1");

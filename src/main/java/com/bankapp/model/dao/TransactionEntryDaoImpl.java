@@ -18,10 +18,12 @@ public class TransactionEntryDaoImpl implements TransactionEntryDao{
 		this.factory = factory;
 	}
 	
+	//Getting a session from session Factory.
 	private Session getSession() {
 		return factory.getCurrentSession();
 	}
 	
+	//adding the transaction with info, amount and transactiontype.
 	@Override
 	public TransactionEntry addTransaction(String txInfo, Double amount, TransactionType txType) {
 		TransactionEntry transactionEntry = new TransactionEntry(txInfo, amount, txType);
@@ -29,6 +31,7 @@ public class TransactionEntryDaoImpl implements TransactionEntryDao{
 		return transactionEntry;
 	}
 
+	//Getting transaction using id.
 	@Override
 	public List<TransactionEntry> getTransactionsById(int accountId) {
 		List<TransactionEntry> transactionEntries = (List<TransactionEntry>) getSession().get(TransactionEntry.class, accountId);

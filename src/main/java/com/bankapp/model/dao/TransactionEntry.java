@@ -27,6 +27,7 @@ public class TransactionEntry {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//Auto generated
 	private Integer txId;
 	
     private String txInfo;
@@ -36,6 +37,7 @@ public class TransactionEntry {
     
     private Double amount;
     
+    //type of enum
     @Enumerated(EnumType.STRING)
     private TransactionType txType;
     

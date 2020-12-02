@@ -30,30 +30,33 @@ public class AccountServiceImpl implements AccountService{
 		this.transactionEntryService = transactionEntryService;
 	}
 
+	//getting list of all accounts.
 	@Override
 	public List<Account> getAllAccounts() {
 		return accountDao.getAllAccounts();
 	}
 
-
+   //Depositing amount to an account and updating the balance in the account by adding the deposited amount.
 	@Override
 	public void deposit(int accountId, double amount) {
-		Account account = accountDao.getAccountByIf(accountId);
+		Account account = accountDao.getAccountById(accountId);
 		account.setBalance(account.getBalance() + amount);
 		accountDao.updateAccount(account);
 		account.setTransactionEntry(transactionEntryDao.getTransactionsById(accountId));
 		transactionEntryService.addTransaction("deposit to " + accountId , amount, TransactionType.DEPOSIT);
 	}
 
+	//With drawing an amount and updating the balance from the account
 	@Override
 	public void withdraw(int accountId, double amount) {
-		Account account = accountDao.getAccountByIf(accountId);
+		Account account = accountDao.getAccountById(accountId);
 		account.setBalance(account.getBalance() - amount);
 		accountDao.updateAccount(account);
 		account.setTransactionEntry(transactionEntryDao.getTransactionsById(accountId));
 		transactionEntryService.addTransaction("withdraw from " + accountId , amount, TransactionType.WITHDRAW);
 	}
 
+	// Transfer amount 
 	@Override
 	public void transfer(int fromAccountId, int toAccountId, double amount) {
 		withdraw(fromAccountId, amount);
@@ -62,9 +65,10 @@ public class AccountServiceImpl implements AccountService{
 		
 	}
 
+	//Updating an account
 	@Override
 	public Account updateAccount(Account account) {
-		Account accountToBeUpdated = accountDao.getAccountByIf(account.getAccountId());
+		Account accountToBeUpdated = accountDao.getAccountById(account.getAccountId());
 		accountToBeUpdated.setEmail(account.getEmail());
 		accountToBeUpdated.setPhone(account.getPhone());
 		accountToBeUpdated.setAddress(account.getAddress());
@@ -80,7 +84,7 @@ public class AccountServiceImpl implements AccountService{
 
 	@Override
 	public Account getAccountByIf(int accountId) {
-		return accountDao.getAccountByIf(accountId);
+		return accountDao.getAccountById(accountId);
 	}
 
 	@Override

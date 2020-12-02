@@ -33,12 +33,29 @@ public class UserController {
 		return "adduser";
 	}
 	
+
 	@PostMapping("adduser")
 	public String addUserPost(@Valid @ModelAttribute("userBean") User userBean, BindingResult result) {
 		if(result.hasErrors()) {
 			return "redirect:/adduser";
 		} else {
 			userService.addUser(userBean);
+		return "redirect:/home";
+		}
+	}
+	
+	@GetMapping("updateuser")
+	public String updateUserGet(ModelMap map) {
+		map.addAttribute("userBean", new UserBean());
+		return "updateuser";
+	}
+	
+	@PostMapping("updateuser")
+	public String updateUserPost(@Valid @ModelAttribute("userBean") User userBean, BindingResult result) {
+		if(result.hasErrors()) {
+			return "redirect:/updateuser";
+		} else {
+			userService.updateUser(userBean);
 		return "redirect:/home";
 		}
 	}
