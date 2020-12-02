@@ -11,19 +11,19 @@
 <br>
 <h3>Welcome, ${sessionScope.user.userType}</h3>  <br>
 <c:if test="${sessionScope.user.userType == 'Admin'}">
-	<a href="adduser"> Add User </a> <br>
-	<a href="transfer"> Transfer </a> <br>
-	<a href="withdraw"> Withdraw </a> <br>
-	<a href="deposit"> Deposit </a> <br>
+ Add new role to employees  <a href="adduser"> Add User </a> <br>
+  Transfer amount	<a href="transfer"> Transfer </a> <br>
+  Withdraw amount	<a href="withdraw"> Withdraw </a> <br>
+  Deposit amount	<a href="deposit"> Deposit </a> <br>
 	<a href="logout"> Logout </a>
 	
 </c:if>
 
 <c:if test="${sessionScope.user.userType == 'Mgr'}">
-    <a href="updateuser"> Update User </a> <br>
-	<a href="transfer"> Transfer </a> <br>
-	<a href="withdraw"> Withdraw </a> <br>
-	<a href="deposit"> Deposit </a> <br>
+  Update the user details  <a href="updateuser"> Update User </a> <br>
+  Transfer amount	<a href="transfer"> Transfer </a> <br>
+  Withdraw amount	<a href="withdraw"> Withdraw </a> <br>
+  Deposit amount	<a href="deposit"> Deposit </a> <br>
 	<a href="logout"> Logout </a>
 </c:if>
 
