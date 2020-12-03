@@ -93,7 +93,7 @@
 			</tr>
 			
 			<tr>
-				<td><input type="submit" value="login"> </td>				
+				<td><button type="submit" value="add User">Sign Up</button></td>				
 			</tr>
 		</table>
 		</div>

@@ -9,9 +9,49 @@
 <link href="${pageContext.request.contextPath}/resources/css/style.css"
     rel="stylesheet">
 </head>
+<style> 
+    /*set border to the form*/ 
+      
+    form { 
+        border: 3px solid #f1f1f1; 
+    } 
+    /*assign full width inputs*/ 
+      
+    input[type=text], 
+    input[type=password] { 
+        width: 100%; 
+        padding: 12px 20px; 
+        margin: 8px 0; 
+        display: inline-block; 
+        border: 1px solid #ccc; 
+        box-sizing: border-box; 
+    } 
+    /*set a style for the buttons*/ 
+      
+    button { 
+        background-color: #4CAF50; 
+        color: white; 
+        padding: 14px 20px; 
+        margin: 8px 0; 
+        border: none; 
+        cursor: pointer; 
+        width: 100%; 
+    } 
+    /* set a hover effect for the button*/ 
+      
+    button:hover { 
+        opacity: 0.8; 
+    } 
+   /*set padding to the container*/ 
+      
+    .container { 
+        padding: 16px; 
+    } 
+
+</style>
 <body>
 <form:form action="signupuser" method="post" modelAttribute="userBean">
-
+   <div class="container"> 
 	<table>
 			<tr>
 				<td><form:hidden path = "uid" value = "0" /></td>
@@ -52,10 +92,11 @@
 			</tr>
 			
 			<tr>
-				<td><input type="submit" value="add User" /></td>
+				<td><button type="submit" value="add User">Sign Up</button></td>
 			</tr>
 		</table>
 	   Already have user account?<a href="login.jsp">login</a> here
+	   </div>
 </form:form>
 </body>
 </html>
