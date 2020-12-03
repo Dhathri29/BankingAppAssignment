@@ -1,5 +1,4 @@
 package com.bankapp.web.controller;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.bankapp.model.dao.User;
 import com.bankapp.model.service.UserService;
 import com.bankapp.web.formbeans.LoginBean;
+import com.bankapp.web.formbeans.UserBean;
 
 @Controller
 public class LoginController {
@@ -27,8 +27,20 @@ public class LoginController {
 	}
 
 	
+//	@GetMapping("/")
+//	public String home(ModelMap map) {
+//		map.addAttribute("loginBean", new LoginBean());
+//		return "login";
+//	}
+	
 	@GetMapping("/")
 	public String home(ModelMap map) {
+		map.addAttribute("userBean", new UserBean());
+		return "signup";
+	}
+	
+	@GetMapping("login")
+	public String loginGet(ModelMap map) {
 		map.addAttribute("loginBean", new LoginBean());
 		return "login";
 	}
@@ -44,7 +56,6 @@ public class LoginController {
 			String password = loginBean.getPassword();
 			User user = userService.getUser(username, password);
 			session.setAttribute("user", user);
-			System.out.println("---------------------------------------------------------");
 			System.out.println(user);
 			return "redirect:/home";
 		}

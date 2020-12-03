@@ -1,6 +1,6 @@
 package com.bankapp.model.service;
 
-
+import java.util.Arrays;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.bankapp.model.dao.Account;
 import com.bankapp.model.dao.AccountDao;
+import com.bankapp.model.dao.TransactionEntry;
 import com.bankapp.model.dao.TransactionEntryDao;
 import com.bankapp.model.dao.TransactionType;
 
@@ -30,42 +31,59 @@ public class AccountServiceImpl implements AccountService{
 		this.transactionEntryService = transactionEntryService;
 	}
 
-	//getting list of all accounts.
 	@Override
 	public List<Account> getAllAccounts() {
 		return accountDao.getAllAccounts();
 	}
 
-   //Depositing amount to an account and updating the balance in the account by adding the deposited amount.
 	@Override
 	public void deposit(int accountId, double amount) {
 		Account account = accountDao.getAccountById(accountId);
 		account.setBalance(account.getBalance() + amount);
 		accountDao.updateAccount(account);
 		account.setTransactionEntry(transactionEntryDao.getTransactionsById(accountId));
-		transactionEntryService.addTransaction("deposit to " + accountId , amount, TransactionType.DEPOSIT);
+		
+		TransactionEntry entry = new TransactionEntry("Deposited to " + accountId , amount, TransactionType.DEPOSIT);
+		account.getTransactionEntry().add(entry);
+		accountDao.updateAccount(account);
+		
+//		transactionEntryService.addTransaction("deposit to " + accountId , amount, TxType.DEPOSIT);
+//		account.setTransactionEntry(Arrays.asList(transactionEntryDao.addTransaction("deposit to " + accountId , amount, TxType.WITHDRAW)));
+		
 	}
 
-	//With drawing an amount and updating the balance from the account
+
 	@Override
 	public void withdraw(int accountId, double amount) {
 		Account account = accountDao.getAccountById(accountId);
 		account.setBalance(account.getBalance() - amount);
 		accountDao.updateAccount(account);
-		account.setTransactionEntry(transactionEntryDao.getTransactionsById(accountId));
-		transactionEntryService.addTransaction("withdraw from " + accountId , amount, TransactionType.WITHDRAW);
+		
+		TransactionEntry entry = new TransactionEntry("Withdraw from " + accountId , amount, TransactionType.WITHDRAW);
+		account.getTransactionEntry().add(entry);
+		accountDao.updateAccount(account);
 	}
-
-	// Transfer amount 
+	
 	@Override
 	public void transfer(int fromAccountId, int toAccountId, double amount) {
-		withdraw(fromAccountId, amount);
-		deposit(toAccountId, amount);
-		transactionEntryService.addTransaction("Transfer from " + fromAccountId , amount, TransactionType.TRANSFER);
+		Account fromAccount = accountDao.getAccountById(fromAccountId);
+		Account toAccount = accountDao.getAccountById(toAccountId);
+		
+		fromAccount.setBalance(fromAccount.getBalance() - amount);
+		toAccount.setBalance(toAccount.getBalance() + amount);
+		accountDao.updateAccount(fromAccount);
+		accountDao.updateAccount(toAccount);
+		
+		TransactionEntry entryFrom = new TransactionEntry("Transferred from " + fromAccountId + " to " + toAccountId , amount, TransactionType.TRANSFER);
+		TransactionEntry entryTo = new TransactionEntry("Credited to your account with account number " + toAccountId + " from account number " + fromAccountId , amount, TransactionType.TRANSFER);
+		fromAccount.getTransactionEntry().add(entryFrom);
+		toAccount.getTransactionEntry().add(entryTo);
+		accountDao.updateAccount(fromAccount);
+		accountDao.updateAccount(toAccount);
+		
 		
 	}
 
-	//Updating an account
 	@Override
 	public Account updateAccount(Account account) {
 		Account accountToBeUpdated = accountDao.getAccountById(account.getAccountId());
@@ -83,7 +101,7 @@ public class AccountServiceImpl implements AccountService{
 	}
 
 	@Override
-	public Account getAccountByIf(int accountId) {
+	public Account getAccountById(int accountId) {
 		return accountDao.getAccountById(accountId);
 	}
 

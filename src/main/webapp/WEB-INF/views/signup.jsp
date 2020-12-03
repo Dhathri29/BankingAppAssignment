@@ -1,16 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Add User</title>
+<title>Sign up</title>
 <link href="${pageContext.request.contextPath}/resources/css/style.css"
     rel="stylesheet">
 </head>
 <body>
-<form:form action="adduser" method="post" modelAttribute="userBean">
+<form:form action="signupuser" method="post" modelAttribute="userBean">
 
 	<table>
 			<tr>
@@ -26,11 +26,6 @@
 				<td><form:input type="password" path="password" /><form:errors path="password" class="error"></form:errors></td>
 			</tr>
 			
-			<tr>
-				<td>Enter userType:</td>
-				<td><form:select path="userType" items="${usertypes}"></form:select><form:errors path="userType" class="error"></form:errors></td>
-			</tr>
-
 			<tr>
 				<td>Enter address:</td>
 				<td><form:input path="address"  /><form:errors path="address" class="error"></form:errors></td>
@@ -60,7 +55,7 @@
 				<td><input type="submit" value="add User" /></td>
 			</tr>
 		</table>
-	
+	   Already have user account?<a href="login.jsp">login</a> here
 </form:form>
 </body>
 </html>

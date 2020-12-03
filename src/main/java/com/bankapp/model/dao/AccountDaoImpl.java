@@ -12,49 +12,49 @@ public class AccountDaoImpl implements AccountDao{
 
 	private SessionFactory factory;
 	
-	//constructor
 	@Autowired
 	public AccountDaoImpl(SessionFactory factory) {
 		this.factory = factory;
 	}
 	
-	//get session from Session Factory.
 	private Session getSession() {
 		return factory.getCurrentSession();
 	}
 
-	//List of all accounts 
 	@Override
 	public List<Account> getAllAccounts() {
 		return getSession().createQuery("from Account").getResultList();
 	}
 
-	
-	//updating account 
 	@Override
 	public Account updateAccount(Account account) {
+
 		Account accountToBeUpdated = getAccountById(account.getAccountId());
+		
+		accountToBeUpdated.setAddress(account.getAddress());
+		accountToBeUpdated.setEmail(account.getEmail());
+		accountToBeUpdated.setPhone(account.getPhone());
 		getSession().update(accountToBeUpdated);
-		return accountToBeUpdated;
+		
+		getSession().update(account);
+		
+		
+		return account;
 	}
 
-	//Deleting an account using Id which is a primary key
 	@Override
 	public Account deleteAccount(int accountId) {
 		Account accountToBeDeleted = getAccountById(accountId);
-		getSession().delete(accountToBeDeleted);
+		getSession().update(accountToBeDeleted);
 		return accountToBeDeleted;
 	}
 
-	
-	//Getting account by id.
 	@Override
 	public Account getAccountById(int accountId) {
 		Account account = getSession().get(Account.class, accountId);
 		return account;
 	}
-	
-	//Adding new account
+
 	@Override
 	public Account addAccount(Account account) {
 		getSession().save(account);

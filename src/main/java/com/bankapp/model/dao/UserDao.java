@@ -8,6 +8,4 @@ public interface UserDao {
 	public User deleteUser(User user);
 	public User updateUser(User user);
 	public User getUser(String username, String password);
-	
-
 }

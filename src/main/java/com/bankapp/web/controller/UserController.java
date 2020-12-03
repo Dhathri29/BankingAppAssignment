@@ -1,7 +1,5 @@
 package com.bankapp.web.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +24,29 @@ public class UserController {
 	public UserController(UserService userService) {
 		this.userService = userService;
 	}
-
+	
+	@GetMapping("signupuser")
+	public String signupUserGet(ModelMap map) {
+		map.addAttribute("userBean", new UserBean());
+		return "signup";
+	}
+   
+	@PostMapping("signupuser")
+	public String SignupUserPost(@Valid @ModelAttribute("userBean") User userBean, BindingResult result) {
+		if(result.hasErrors()) {
+			return "redirect:/signup";
+		} else {
+			userService.addUser(userBean);
+		return "redirect:/login";
+		}
+	}
+	
 	@GetMapping("adduser")
 	public String addUserGet(ModelMap map) {
 		map.addAttribute("userBean", new UserBean());
 		return "adduser";
 	}
 	
-
 	@PostMapping("adduser")
 	public String addUserPost(@Valid @ModelAttribute("userBean") User userBean, BindingResult result) {
 		if(result.hasErrors()) {
